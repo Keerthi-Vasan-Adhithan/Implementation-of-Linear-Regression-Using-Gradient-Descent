@@ -1,4 +1,5 @@
-## Implementation-of-Linear-Regression-Using-Gradient-Descent
+# Implementation-of-Linear-Regression-Using-Gradient-Descent
+
 ## AIM:
 To write a program to predict the profit of a city using the linear regression model with gradient descent.
 
@@ -7,97 +8,62 @@ To write a program to predict the profit of a city using the linear regression m
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
+
 1. Import the required library and read the dataframe.
-2.Write a function computeCost to generate the cost function.
-3.Perform iterations og gradient steps with learning rate.
-4.Plot the Cost function using Gradient Descent and generate the required graph.
- 
+2. Write a function computeCost to generate the cost function.
+3. Perform iterations og gradient steps with learning rate.
+4. Plot the Cost function using Gradient Descent and generate the required graph.
+
+
 ## Program:
-```PY
-#Program to implement the linear regression using gradient descent.
-#Developed by: KEERTHI VASAN A
-#RegisterNumber: 212222240048
-
-import pandas as pd
+```
+/*
+Program to implement the linear regression using gradient descent.
+Developed by: VARSHINI S A
+RegisterNumber:  212222100059
+*/
+```
+```
 import numpy as np
-import matplotlib.pyplot as plt
-data=pd.read_csv("ex1.txt",header=None)
-plt.scatter(data[0],data[1])
-plt.xticks(np.arange(5,30,step=5))
-plt.yticks(np.arange(-5,30,step=5))
-plt.xlabel("Population of City(10,000s)")
-plt.ylabel("Profit ($10,000)")
-plt.title("Profit Prediction")
-
-def computeCost(X,y,theta):
-    m=len(y) 
-    h=X.dot(theta) 
-    square_err=(h-y)**2
-    return 1/(2*m)*np.sum(square_err) 
-
-data_n=data.values
-m=data_n[:,0].size
-X=np.append(np.ones((m,1)),data_n[:,0].reshape(m,1),axis=1)
-y=data_n[:,1].reshape(m,1)
-theta=np.zeros((2,1))
-computeCost(X,y,theta) 
-
-def gradientDescent(X,y,theta,alpha,num_iters):
-    m=len(y)
-    J_history=[] #empty list
-    for i in range(num_iters):
-        predictions=X.dot(theta)
-        error=np.dot(X.transpose(),(predictions-y))
-        descent=alpha*(1/m)*error
-        theta-=descent
-        J_history.append(computeCost(X,y,theta))
-    return theta,J_history
-
-theta,J_history = gradientDescent(X,y,theta,0.01,1500)
-print("h(x) ="+str(round(theta[0,0],2))+" + "+str(round(theta[1,0],2))+"x1")
-
-plt.plot(J_history)
-plt.xlabel("Iteration")
-plt.ylabel("$J(\Theta)$")
-plt.title("Cost function using Gradient Descent")
-
-plt.scatter(data[0],data[1])
-x_value=[x for x in range(25)]
-y_value=[y*theta[1]+theta[0] for y in x_value]
-plt.plot(x_value,y_value,color="r")
-plt.xticks(np.arange(5,30,step=5))
-plt.yticks(np.arange(-5,30,step=5))
-plt.xlabel("Population of City(10,000s)")
-plt.ylabel("Profit ($10,000)")
-plt.title("Profit Prediction")
-
-def predict(x,theta):
-    predictions=np.dot(theta.transpose(),x)
-    return predictions[0]
-
-predict1=predict(np.array([1,3.5]),theta)*10000
-print("For Population = 35000, we predict a profit of $"+str(round(predict1,0)))
-
-predict2=predict(np.array([1,7]),theta)*10000
-print("For Population = 70000, we predict a profit of $"+str(round(predict2,0)))
-
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def linear_regression(X1,y,learning_rate=0.1,num_iters=1000):
+    X = np.c_[np.ones(len(X1)),X1]
+    theta = np.zeros(X.shape[1]).reshape(-1,1)
+    for _ in range(num_iters):
+        predictions = (X).dot(theta).reshape(-1,1)
+        errors=(predictions-y).reshape(-1,1)
+        theta-=learning_rate*(1/len(X1))*X.T.dot(errors)
+    return theta
+data=pd.read_csv("C:/Users/admin/Downloads/rohithprem/50_Startups.csv")
+data.head()
+X = (data.iloc[1:,:-2].values)
+X1 =X.astype(float)
+scaler = StandardScaler()
+y = (data.iloc[1:,-1].values).reshape(-1,1)
+X1_Scaled = scaler.fit_transform(X1)
+Y1_Scaled = scaler.fit_transform(y)
+print(X)
+print(X1_Scaled)
+theta=linear_regression(X1_Scaled,Y1_Scaled)
+new_data=np.array([165349.2,136897.8,471784.1]).reshape(-1,1)
+new_Scaled=scaler.fit_transform(new_data)
+prediction=np.dot(np.append(1,new_Scaled),theta)
+prediction= prediction.reshape(-1,1)
+pre = scaler.inverse_transform(prediction)
+print(prediction)
+print(f"Predicted value:{pre}")
 ```
 
-
 ## Output:
-![image](https://github.com/Daniel-christal/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145742847/d08dee80-df88-48d1-a354-6e0efde41bf2)
 
-![image](https://github.com/Daniel-christal/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145742847/f95cb657-dfc5-46ff-888b-751ad3d08aa7)
+![1](https://github.com/VARSHINI22009118/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/119401150/48a477c7-c5a9-4ff3-946a-1cb08a30ed3f)
+![2](https://github.com/VARSHINI22009118/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/119401150/2183a3df-f122-46d4-bd31-45085e3b560a)
+![3](https://github.com/VARSHINI22009118/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/119401150/f528b30f-2408-4b8f-ab53-568a64f54e7a)
+![4](https://github.com/VARSHINI22009118/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/119401150/b8b34d95-274e-4703-8fc1-13e3afd98971)
+![5](https://github.com/VARSHINI22009118/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/119401150/2f22e471-c3bc-4139-8feb-dd3a89aa26a6)
+![6](https://github.com/VARSHINI22009118/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/119401150/f654cb18-ef63-470c-8177-a58d06ed87ad)
 
-![image](https://github.com/Daniel-christal/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145742847/cc1cfb50-558d-49a3-bd7c-c10b79140131)
-
-![image](https://github.com/Daniel-christal/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145742847/12056ea0-fb5b-4a30-935e-eb1f0ab57f5e)
-
-![image](https://github.com/Daniel-christal/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145742847/f6934e62-63ee-4d98-b622-a423dfd74877)
-
-![image](https://github.com/Daniel-christal/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145742847/138282ba-611f-4d70-b82c-670579285cd0)
-
-![image](https://github.com/Daniel-christal/Implementation-of-Linear-Regression-Using-Gradient-Descent/assets/145742847/a7562775-add0-4cad-8a38-49c9ab03e416)
 
 
 ## Result:
