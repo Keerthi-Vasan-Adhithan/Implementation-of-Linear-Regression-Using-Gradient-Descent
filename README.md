@@ -23,7 +23,7 @@ Developed by: KEERTHI VASAN A
 RegisterNumber:  212222240048
 */
 ```
-```
+```PY
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
